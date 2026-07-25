@@ -9,14 +9,19 @@ import (
 
 func home(w http.ResponseWriter, r *http.Request) {
 
-	t, err := template.ParseFiles("./ui/html/pages/home.html")
+	files := []string{
+		"./ui/html/base.html",
+		"./ui/html/pages/home.html",
+	}
+
+	t, err := template.ParseFiles(files...)
 	if err != nil {
 		fmt.Printf("Internal Server Error : %v\n", err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
-	err = t.Execute(w, nil)
+	err = t.ExecuteTemplate(w, "base", nil)
 	if err != nil {
 		fmt.Printf("Internal Server Error : %v\n", err)
 		w.WriteHeader(http.StatusInternalServerError)
