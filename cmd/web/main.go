@@ -10,6 +10,9 @@ func main() {
 
 	mux := http.NewServeMux()
 
+	fileServer := http.FileServer(http.Dir("./ui/static/"))
+
+	mux.Handle("GET /static/", http.StripPrefix("/static", fileServer))
 	mux.HandleFunc("GET /{$}", home)                          // dsiplay the home page
 	mux.HandleFunc("GET /snippet/view/{id}", snippetView)     // display a specific snippet
 	mux.HandleFunc("GET /snippet/create", snippetCreate)      // display a form for creating snippet
